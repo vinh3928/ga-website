@@ -1,7 +1,7 @@
 require('dotenv').load();
 var express = require('express');
 var router = express.Router();
-var db = require('monk')(process.env.GENETIC);
+var db = require('monk')(process.env.MONGOLAB_URI);
 var population = db.get('population');
 
 router.get('/population.json', function(req, res, next) {

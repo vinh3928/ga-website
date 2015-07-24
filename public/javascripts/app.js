@@ -210,7 +210,11 @@ advert.addEventListener("click", function (e) {
 window.onbeforeunload = closingCode;
 
 function closingCode(){
-    specimen.population.fitness = (Date.now() - startTime)/1000;
+    var time = ((Date.now() - startTime)/1000);
+    if (time > 300) {
+      time = 300;
+    }
+    specimen.population.fitness = time;
     orbit.post("/data/updatefitness", specimen, function () {
     });
    return null;
