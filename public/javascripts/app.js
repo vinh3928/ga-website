@@ -134,8 +134,7 @@ var floats = {
   1: "right",
   2: "none"
 };
-var advert = document.getElementById("box"),
-  header = document.getElementById("header"),
+  var header = document.getElementById("header"),
   footer = document.getElementById("footer"),
   article = document.getElementsByTagName("article"),
   h1 = document.getElementsByTagName("h1"),
@@ -157,12 +156,10 @@ function advertBox (population) {
   var otherDisplay1 = display[Math.floor(population.code[8]*3)];
   var otherDisplay2 = display[Math.floor(population.code[9]*3)];
   var otherDisplay3 = display[Math.floor(population.code[10]*3)];
-  advert.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
   header.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
   footer.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
   article[0].style.backgroundColor = "rgb(" + (r + 100) + "," + (g + 50) + "," + (b + 100) + ")";
   main.style.fontSize = fontSize + "px";
-  advert.style.fontSize = fontSize + "px";
   main.style.fontFamily = fontFamily;
   nav.style.display = navDisplay;
   nav.style.float = navFloat;
@@ -201,10 +198,6 @@ orbit.get("/data/population.json", function () {
     orbit.post("/data/nextone", specimen, function () {
     });
   }
-});
-
-advert.addEventListener("click", function (e) {
-  advertBox();
 });
 
 window.onbeforeunload = closingCode;
