@@ -1,12 +1,16 @@
-function Population (geneLength, fitness, size) {
+function Population (geneLength, size, array) {
   this.members = [];
   this.geneLength = geneLength;
-  this.fitness = fitness;
+  this.goal = 0;
   this.generationNumber = 0;
-  while (size --) {
-    var gene = new Gene();
-    gene.random(this.geneLength);
-    this.members.push(gene);
+  if (array) {
+    this.members = array;
+  } else {
+    while (size --) {
+      var gene = new Gene();
+      gene.random(this.geneLength);
+      this.members.push(gene);
+    }
   }
 }
 
@@ -28,30 +32,54 @@ Population.prototype.sort = function () {
 };
 
 Population.prototype.generation = function () {
-  for (var i = 0; i < this.members.length; i ++) {
-    this.members[i].calcFitness(this.fitness);
-  }
   this.sort();
   this.display();
-  var children = this.members[0].mate(this.members[1]);
-  children[0].mutate(0.1);
-  children[1].mutate(0.1);
-  this.members.splice(this.members.length - 2, 2, children[0], children[1]);
+  var sumFitness = 0;
+  var sumOfProbability = 0;
+  var newPool = [];
+  for (var i = 0; i < this.members.length; i ++) {
+    sumFitness += this.members[i].fitness;
+  }
+
   for (i = 0; i < this.members.length; i ++) {
-    if (this.members[i].code == this.fitness) {
-      this.sort();
-      this.display();
-      return true;
+    this.members[i].lowProb = sumOfProbability;
+    var probability = sumOfProbability + (this.members[i].fitness/sumFitness);
+    this.members[i].highProb = probability;
+    sumOfProbability = probability;
+  }
+
+  for (i = 0; i < this.members.length/2; i ++) {
+    var mates = [];
+    var number =  Math.random().toFixed(3);
+    for (var j = 0; j < this.members.length; j ++) {
+      if (number > this.members[j].lowProb && number < this.members[j].highProb) {
+        mates.push(j);
+      }
+    }
+    number =  Math.random().toFixed(3);
+    for (j = 0; j < this.members.length; j ++) {
+      if (number > this.members[j].lowProb && number < this.members[j].highProb) {
+        mates.push(j);
+      }
+    }
+    var children = this.members[mates[0]].mate(this.members[mates[1]]);
+    for (j = 0; j < children.length; j ++) {
+      children[j].mutate(0.1);
+      newPool.push(children[j]);
     }
   }
-  this.generationNumber ++;
+
+  var newPopulation = new Population(20, 8, newPool);
+  return newPopulation;
+
 };
 
-function Gene (code) {
+function Gene (code, fitness) {
   //think this if is if code is given through birth or randomly generated
   if (code) this.code = code;
   else this.code = [];
-  this.fitness = 0;
+  if (fitness) this.fitness = fitness;
+  else this.fitness = 0;
 }
 
 
@@ -63,17 +91,10 @@ Gene.prototype.random = function (length) {
 
 Gene.prototype.mutate = function (chance) {
   if (Math.random() > chance) return;
-  
-  var upOrDown = Math.random() <= 0.5 ? -1 : 1;
   var index = Math.floor(Math.random() * this.code.length);
   // upOrDown moves the mutate character up or down 1
   // can use to mutate up or down by a certain stepsize
-  var newMutate = (parseFloat(this.code[index]) + parseFloat(upOrDown*0.01)).toFixed(3);
-  if (newMutate >= 1) {
-    newMutate = 1;
-  } else if (newMutate <= 0) {
-    newMutate = 0;
-  }
+  var newMutate = Math.random().toFixed(3);
   var newGene = [];
   for (i = 0; i < this.code.length; i ++) {
     if (i === index) newGene.push(newMutate);
@@ -86,15 +107,11 @@ Gene.prototype.mate = function(gene) {
   var pivot = Math.floor(this.code.length * Math.random());
   var child1 = this.code.slice(0, pivot).concat(gene.code.slice(pivot));
   var child2 = gene.code.slice(0, pivot).concat(this.code.slice(pivot));
-  
   return [new Gene(child1), new Gene(child2)];
 };
 
-Gene.prototype.calcFitness = function(compareTo) {
-  var score = prompt("rate this gene");
-  this.fitness = score;
-};
-
+var specimen;
+var startTime = Date.now();
 var counter = 0;
 var fonts = {
   0: "Poiret One",
@@ -117,7 +134,7 @@ var floats = {
   0: "left",
   1: "right",
   2: "none"
-}
+};
 var advert = document.getElementById("box"),
   header = document.getElementById("header"),
   footer = document.getElementById("footer"),
@@ -157,14 +174,33 @@ function advertBox (population) {
 }
 
 orbit.get("/data/population.json", function () {
-  var specimen = this.response
-  if (specimen === "true") {
-    var population = new Population(20, 100, 8);
-    orbit.post("/data/population.json", population, function () {
+  specimen = JSON.parse(this.response);
+  if (specimen === false) {
+    var population = new Population(20, 8);
+    orbit.post("/data/newpopulation", population, function () {
+      window.location = "/home";
     });
+  } else if (specimen === true) {
+// want to generate new population from existing population
+    orbit.get("/data/getpopulation", function () {
+      var data = JSON.parse(this.response);
+      var array = [];
+      for (var i = 0; i < data.length; i ++) {
+        var gene = new Gene(data[i].population.code, data[i].population.fitness);
+        array.push(gene);
+      }
+      var population = new Population(20, 8, array);
+      var newPopulation = population.generation();
+      orbit.post("/data/newpopulation", newPopulation, function () {
+        window.location = "/home";
+
+      });
+    });
+
   } else {
-    console.log(specimen)
-    advertBox(specimen);
+    advertBox(specimen.population);
+    orbit.post("/data/nextone", specimen, function () {
+    });
   }
 });
 
@@ -172,3 +208,11 @@ advert.addEventListener("click", function (e) {
   advertBox();
 });
 
+window.onbeforeunload = closingCode;
+
+function closingCode(){
+    specimen.population.fitness = (Date.now() - startTime)/1000;
+    orbit.post("/data/updatefitness", specimen, function () {
+    });
+   return null;
+}
