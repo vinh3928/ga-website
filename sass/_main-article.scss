@@ -1,0 +1,39 @@
+/***************************
+ * MAIN ARTICLE
+***************************/
+
+
+.mainarticle {
+  height: 300px;
+  width: 25%;
+  margin: 0 0 0 12%;
+  background: rgba(222,222,222,1);
+  color: rgba(152,152,152,1);
+  display: inline-block;
+}
+
+.mainarticle h2 {
+  font-size: 40px;
+  margin: 0;
+  padding: 15px 10px 15px 10px;
+}
+
+.mainarticle p {
+  margin: 0;
+  padding: 0 10px;
+}
+
+article a {
+  padding: 15px 10px 15px 10px;
+  display: block;
+  text-align: right;
+  color: rgba(255,157,0,1);
+}
+
+.mainpic {
+  height: 300px;
+  width: 50%;
+  float: right;
+  margin: 0 12% 0 0;
+}
+

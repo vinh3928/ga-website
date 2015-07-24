@@ -1,0 +1,54 @@
+@import "reset";
+@import "variables";
+@import "global";
+@import "header";
+@import "advertisement";
+@import "main-article";
+@import "forms";
+@import "landing";
+
+/***************************
+ * OTHER ARTICLE
+***************************/
+
+.other {
+  display: inline-block;
+  width: 25.7%;
+  padding: 0 20px 0 0;
+  color: rgba(152,152,152,1);
+  margin: 0 0 40px 0;
+  p {
+    margin: 0;
+  }
+}
+
+
+h3 {
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+.firsta {
+  margin: 0 0 0 12%;
+}
+
+.treepic {
+  height: 80px;
+  width: 80px;
+  float: left;
+  margin: 0 10px 20px 0;
+}
+
+/***************************
+ * FOOTER
+***************************/
+
+footer {
+  background: rgba(35,35,35,1);
+  color: rgba(152,152,152,1);
+  p {
+    margin: 0 0 0 12%;
+    padding: 20px 0;
+  }
+}
+

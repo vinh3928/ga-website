@@ -34,12 +34,12 @@ Population.prototype.sort = function () {
 Population.prototype.generation = function () {
   this.sort();
   this.display();
-  var sumFitness = 0;
   var sumOfProbability = 0;
   var newPool = [];
-  for (var i = 0; i < this.members.length; i ++) {
-    sumFitness += this.members[i].fitness;
-  }
+
+  var sumFitness = this.members.reduce(function (all, item) {
+    return all + item.fitness
+  }, 0);
 
   for (i = 0; i < this.members.length; i ++) {
     this.members[i].lowProb = sumOfProbability;
@@ -112,7 +112,6 @@ Gene.prototype.mate = function(gene) {
 
 var specimen;
 var startTime = Date.now();
-var counter = 0;
 var fonts = {
   0: "Poiret One",
   1: "Lobster",

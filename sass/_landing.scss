@@ -1,0 +1,38 @@
+
+.overlay {
+  background-color: $dgreenTrans;
+}
+
+.block {
+  height: 100px;
+
+}
+
+.background { 
+  background: url(/images/dna.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.fb-link {
+  font-size: 14px;
+  color: white;
+  background-color: blue;
+  border-radius: 5px;
+  border: 1px solid $dgreen;
+  padding: 5px;
+
+}
+
+.sign-in {
+  font-size: 1.5rem;
+  color: white;
+  background-color: $green;
+  border-radius: 10px;
+  border: 1px solid $dgreen;
+  padding: 11px 12px 9px 12px;
+  height: 50px;
+
+}
