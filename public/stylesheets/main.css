@@ -213,21 +213,38 @@ form {
   border: 1px solid #4C6663;
   padding: 5px; }
 
-.sign-in {
-  font-size: 1.5rem;
+.register {
+  font-size: 14px;
   color: white;
   background-color: #80CFA9;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid #4C6663;
-  padding: 11px 12px 9px 12px;
-  height: 50px;
-  font-family: arial; }
+  font-family: arial;
+  padding: 0 10px; }
 
 .container {
   width: 60%;
   margin: 0 auto; }
   .container h2 {
     text-align: center; }
+
+.error {
+  color: white;
+  text-shadow: 1px 1px 0 red, -1px 1px 0 red, 1px -1px 0 red, -1px -1px 0 red; }
+
+.cells-bg {
+  background: url(/images/mitosis.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 800px; }
+
+.white-contain {
+  background-color: rgba(255, 255, 255, 0.9); }
+
+.container a {
+  color: green; }
 
 /***************************
  * OTHER ARTICLE

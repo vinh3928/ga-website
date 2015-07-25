@@ -1,0 +1,17 @@
+.cells-bg {
+  background: url(/images/mitosis.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 800px;
+}
+
+.white-contain {
+  background-color: $whiteTrans;
+}
+
+.container a {
+  color: green;
+
+}

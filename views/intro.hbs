@@ -1,0 +1,22 @@
+<div class="cells-bg">
+  <div class="block">
+  </div>
+  <div class="white-contain">
+    <div class="container">
+      {{#if user}}
+      <p>
+        Hello {{user.displayName}}
+        <a href="/users/logout">logout</a>
+      </p>
+      {{else}}
+      <p>
+        <a href="/auth/facebook">login</a>
+      </p>
+      {{/if}}
+      <h2>Evolving Website</h2>
+      <p>You will be entering a website that evolves! The website will determine the most popular styling based on the many users that visits it. Each generation the website will improve the styling based on data collected from user interaction. The lower the generation, we would expect the less orderly the website to appear. Remember, once your done viewing the website, close the window or click on the "finished" button at the bottom of the site. <a href="/home">Enter Here.</a></p>
+    <div class="block">
+    </div>
+    </div>
+  </div>
+</div>

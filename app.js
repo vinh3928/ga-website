@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var hbs = require('hbs');
 var db = require('monk')(process.env.MONGOLAB_URI);
 var userFb = db.get('users');
 var FacebookStrategy = require('passport-facebook').Strategy;
@@ -15,7 +16,19 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var data = require('./routes/data');
 
+hbs.registerPartials(__dirname + '/views/partials')
 var app = express();
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "http://localhost:3000/auth/facebook/callback",
+    scope: ['email', 'public_profile'],
+    state: true
+  },
+  function(accessToken, refreshToken, profile, done) {
+      done(null, {id: profile.id, displayName: profile.displayName, profileStuff: profile});
+  }
+));
 
 app.set('trust proxy', 1);
 
@@ -43,37 +56,30 @@ passport.serializeUser(function(user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(id, done) {
-  userFb.findOne({facebookId: id}, function(err, user) {
-    done(null, user);
-  });
+passport.deserializeUser(function(user, done) {
+  done(null, user);
 });
 
-passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3000/auth/facebook/callback",
-    enableProof: false
-  },
-  function(accessToken, refreshToken, profile, done) {
-    userFb.find({ facebookId: profile.id }, function (err, user) {
-      return done(err, user);
-    });
-  }
-));
+app.use(function (req, res, next) {
+  res.locals.user = req.user;
+  next();
+});
+
 
 app.use('/', routes);
 app.use('/data', data);
 app.use('/users', users);
 app.get('/auth/facebook',
-  passport.authenticate('facebook'));
+  passport.authenticate('facebook'),
+  function(req, res) {
+});
 
 app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  passport.authenticate('facebook', { sucessRedirect: '/intro', failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/');
-  });
+    res.redirect('/intro');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -3,19 +3,22 @@
   <div class="block">
   </div>
   <div class="overlay">
-    <form action="/users/register" method="post">
+    <form action="/users/login" method="post">
       <table>
         <tr>
+          {{> error}}
+        </tr>
+        <tr>
           <td><label for="email">Email</label></td>
-          <td><input type="email" name="email" id="email" value="" /></td>
+          <td><input type="email" name="email" id="email" value="{{content.email}}" /></td>
         </tr>
         <tr>
           <td><label for="password">Password</label></td>
-          <td><input type="password" name="password" id="password" value="" /></td>
+          <td><input type="password" name="password" id="password" value="{{content.password}}" /></td>
         </tr>
         <tr>
-          <td><a class="fb-link" href="/auth/facebook">Facebook Sign-in</a></td>
-          <td><input type="submit" name="" id="" value="Register"/><a class="sign-in" href="/user/signin">Sign-in</a></td>
+          <td><a class="fb-link" href="/auth/facebook">Facebook Sign-in</a><p><a class="register" href="/users/register">Register</a></p></td>
+          <td><input type="submit" name="" id="" value="Sign-in"/></td>
         </tr>
       </table>
     </form>

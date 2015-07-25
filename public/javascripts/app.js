@@ -33,7 +33,6 @@ Population.prototype.sort = function () {
 
 Population.prototype.generation = function () {
   this.sort();
-  this.display();
   var sumOfProbability = 0;
   var newPool = [];
 
