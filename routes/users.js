@@ -39,7 +39,7 @@ router.post('/register', function(req, res, next) {
           req.body.password = hash;
           users.insert(req.body, function (err, docs) {
             req.session.id = docs._id;
-            res.redirect('/intro');
+            res.render('intro', {user: req.body});
           });
         });
       });
@@ -69,7 +69,7 @@ router.post('/login', function(req, res, next) {
       bcrypt.compare(req.body.password, doc.password, function(err, test) {
         if (test) {
           req.session.id = doc._id;
-          res.redirect('/');
+          res.render('intro', {user: req.body});
         } else {
           res.render("login", {error: "not a valid sign-in combination", content: req.body});
         }

@@ -157,17 +157,17 @@ article a {
   float: right;
   margin: 0 12% 0 0; }
 
-input[type="text"], input[type="email"], input[type="password"] {
+input[type="text"], input[type="number"], input[type="email"], input[type="password"] {
   width: 100%;
   height: 50px;
   padding: 10px;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: 5px;
   border-radius: 10px;
   border: #4C6663 1px solid;
   color: white;
   text-shadow: 1px 1px 0 #4C6663, -1px 1px 0 #4C6663, 1px -1px 0 #4C6663, -1px -1px 0 #4C6663; }
-  input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+  input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus {
     outline: 0;
     border: #4C6663 2px solid;
     background: rgba(167, 226, 227, 0.5); }

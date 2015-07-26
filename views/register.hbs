@@ -1,0 +1,30 @@
+<section class="background">
+  <div class="block">
+  </div>
+  <div class="overlay">
+    <form action="/users/register" method="post">
+      <table>
+        <tr>
+          {{> error}}
+        </tr>
+        <tr>
+          <td><label for="email">Email</label></td>
+          <td><input type="email" name="email" id="email" value="{{content.email}}" /></td>
+        </tr>
+        <tr>
+          <td><label for="password">Password</label></td>
+          <td><input type="password" name="password" id="password" value="{{content.password}}" /></td>
+        </tr>
+        <tr>
+          <td><label for="age">Age</label></td>
+          <td><input type="number" name="age" id="age" value="" /></td>
+        </tr>
+        <tr>
+          <td><a class="fb-link" href="/auth/facebook">Facebook Sign-in</a><p><a class="register" href="/">Sign-in</a></p></td>
+          <td><input type="submit" name="" id="" value="Register"/></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</section>
+
