@@ -37,7 +37,7 @@ Population.prototype.generation = function () {
   var newPool = [];
 
   var sumFitness = this.members.reduce(function (all, item) {
-    return all + item.fitness
+    return all + item.fitness;
   }, 0);
 
   for (i = 0; i < this.members.length; i ++) {
@@ -68,7 +68,7 @@ Population.prototype.generation = function () {
     }
   }
 
-  var newPopulation = new Population(20, 8, newPool);
+  var newPopulation = new Population(11, 8, newPool);
   return newPopulation;
 
 };
@@ -111,6 +111,8 @@ Gene.prototype.mate = function(gene) {
 
 var specimen;
 var startTime = Date.now();
+var clickA = 0;
+var clicking = 0;
 var fonts = {
   0: "Poiret One",
   1: "Lobster",
@@ -133,6 +135,11 @@ var floats = {
   1: "right",
   2: "none"
 };
+
+var srcEleMain = ["/images/yosemite.jpg", "/images/cats.jpg", "/images/beers.jpg", "/images/hiking.jpg"];
+var srcEleSec = ["/images/tree.jpg", "/images/smallcat.jpg", "/images/calmbeer.jpg", "/images/bwhiking.jpg"];
+
+
   var header = document.getElementById("header"),
   footer = document.getElementById("footer"),
   article = document.getElementsByTagName("article"),
@@ -140,8 +147,57 @@ var floats = {
   main = document.getElementById("main"),
   nav = document.getElementById("nav"),
   mainpic = document.getElementById("mainpic"),
+  treepic = document.getElementsByClassName("treepic"),
+  titleMain = document.getElementById("title-main"),
   other = document.getElementsByClassName("other"),
-  action = document.getElementById("action");
+  action = document.getElementById("action"),
+  home = document.getElementById("home"),
+  cats = document.getElementById("cats"),
+  beer = document.getElementById("beer"),
+  hiking = document.getElementById("hiking"),
+  clickMe = document.getElementById("click-me");
+
+
+home.addEventListener("click", function (e) {
+  mainpic.setAttribute("src", "/images/yosemite.jpg");
+  for (var i = 0, l = treepic.length; i < l; i ++) {
+    treepic[i].setAttribute("src", "/images/tree.jpg");
+  }
+  titleMain.innerHTML = "Yosemite National Park.";
+});
+
+cats.addEventListener("click", function (e) {
+  mainpic.setAttribute("src", "/images/cats.jpg");
+  for (var i = 0, l = treepic.length; i < l; i ++) {
+    treepic[i].setAttribute("src", "/images/smallcat.jpg");
+  }
+  titleMain.innerHTML = "Cats Are Fuzzy";
+});
+
+beer.addEventListener("click", function (e) {
+  mainpic.setAttribute("src", "/images/beers.jpg");
+  for (var i = 0, l = treepic.length; i < l; i ++) {
+    treepic[i].setAttribute("src", "/images/calmbeer.jpg");
+  }
+  titleMain.innerHTML = "Taste The Golden Liquid";
+});
+
+hiking.addEventListener("click", function (e) {
+  mainpic.setAttribute("src", "/images/hiking.jpg");
+  for (var i = 0, l = treepic.length; i < l; i ++) {
+    treepic[i].setAttribute("src", "/images/bwhiking.jpg");
+  }
+  titleMain.innerHTML = "Why Are We Hiking?";
+});
+
+clickMe.addEventListener("click", function (e) {
+  var srcIndex = Math.floor(Math.random() * 4);
+  mainpic.setAttribute("src", srcEleMain[srcIndex]);
+  for (var i = 0, l = treepic.length; i < l; i ++) {
+    treepic[i].setAttribute("src", srcEleSec[srcIndex]);
+  }
+  titleMain.innerHTML = "Random Fun!";
+});
 
 function advertBox (population) {
   var r = Math.floor(population.code[0] * 255);
@@ -171,7 +227,7 @@ function advertBox (population) {
 orbit.get("/data/population.json", function () {
   specimen = JSON.parse(this.response);
   if (specimen === false) {
-    var population = new Population(20, 8);
+    var population = new Population(11, 8);
     orbit.post("/data/newpopulation", population, function () {
       window.location = "/home";
     });
@@ -184,7 +240,7 @@ orbit.get("/data/population.json", function () {
         var gene = new Gene(data[i].population.code, data[i].population.fitness);
         array.push(gene);
       }
-      var population = new Population(20, 8, array);
+      var population = new Population(11, 8, array);
       var newPopulation = population.generation();
       orbit.post("/data/newpopulation", newPopulation, function () {
         window.location = "/home";
@@ -199,6 +255,14 @@ orbit.get("/data/population.json", function () {
   }
 });
 
+document.body.addEventListener('click', function (e) {
+  if (e.target.tagName === "A") {
+    clickA += 10;
+  } else {
+    clicking += 2;
+  }
+});
+
 window.onbeforeunload = closingCode;
 
 function closingCode(){
@@ -206,6 +270,7 @@ function closingCode(){
     if (time > 300) {
       time = 300;
     }
+    time += clickA + clicking;
     specimen.population.fitness = time;
     orbit.post("/data/updatefitness", specimen, function () {
     });

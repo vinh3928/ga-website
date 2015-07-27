@@ -69,7 +69,7 @@ router.post('/login', function(req, res, next) {
       bcrypt.compare(req.body.password, doc.password, function(err, test) {
         if (test) {
           req.session.id = doc._id;
-          res.render('intro', {user: req.body});
+          res.render('intro', {user: doc});
         } else {
           res.render("login", {error: "not a valid sign-in combination", content: req.body});
         }

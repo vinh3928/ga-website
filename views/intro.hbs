@@ -5,12 +5,12 @@
     <div class="container">
       {{#if user}}
       <p>
-        Hello {{user.displayName}}
+        Hello {{user.name}}
         <a href="/users/logout">logout</a>
       </p>
       {{else}}
       <p>
-        <a href="/auth/facebook">login</a>
+        <a href="/">login</a>
       </p>
       {{/if}}
       <h2>Evolving Website</h2>
