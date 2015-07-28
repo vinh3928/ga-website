@@ -222,6 +222,7 @@ function advertBox (population) {
   other[0].style.display = otherDisplay1;
   other[1].style.display = otherDisplay2;
   other[2].style.display = otherDisplay3;
+  main.style.visibility = "visible";
 }
 
 orbit.get("/data/population.json", function () {
