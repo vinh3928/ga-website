@@ -18,9 +18,24 @@ router.get('/', function(req, res, next) {
   }
 });
 
+router.get('/second-attempt', function(req, res, next) {
+  res.render('second', {});
+});
+
 
 router.get('/home', function(req, res, next) {
-  res.render('home', {});
+  if (req.session.id) {
+    users.findOne({_id: req.session.id}, function (err, doc) {
+      if (err) throw new Error('cannot find session id');
+      if (doc.visited === true) {
+        res.redirect('/second-attempt');
+      } else {
+        res.render('home', {});
+      }
+    });
+  } else {
+    res.redirect('/');
+  }
 });
 
 router.get('/results', function(req, res, next) {

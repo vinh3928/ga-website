@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('monk')(process.env.MONGOLAB_URI);
 var population = db.get('population');
+var users = db.get('users');
 
 router.get('/population.json', function(req, res, next) {
   population.findOne({active: true}, function (err, docs) {
@@ -61,6 +62,7 @@ router.post('/nextone', function (req, res, next) {
   population.findAndModify({_id: req.body._id}, {$set: {active: false}});
   population.findAndModify({_id: req.body._id}, {$set: {hasBeen: true}});
   population.findAndModify({counter: {$gt: req.body.counter}}, {$set: {active: true}});
+  users.findAndModify({_id: req.session.id}, {$set: {visited: true}});
   // find the active thats true, change it it false, 
   // save id in variable, find next one of id, 
   // then change active to true.

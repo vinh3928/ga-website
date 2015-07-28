@@ -37,6 +37,9 @@ router.post('/register', function(req, res, next) {
       bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(req.body.password, salt, function(err, hash) {
           req.body.password = hash;
+          if (req.body.visited === "false") {
+            req.body.visited = false;
+          }
           users.insert(req.body, function (err, docs) {
             req.session.id = docs._id;
             res.render('intro', {user: req.body});

@@ -48,7 +48,8 @@ var pc = d3.parcoords()("#example")
   .createAxes()
   .reorderable()
   .brushMode("1D-axes")
-  .interactive();
+  .interactive()
+  .composite("darken");
 
   update_colors(d3.keys(filteredData[0])[11]);
 
