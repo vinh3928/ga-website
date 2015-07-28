@@ -1,0 +1,15 @@
+
+.chromosome {
+  background: url(/images/chromosome.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  h2, h4 {
+    background-color: $dgreenTrans;
+    margin: 0;
+    color: white;
+    text-shadow: 1px 1px 0 $dgreen, -1px 1px 0 $dgreen, 1px -1px 0 $dgreen, -1px -1px 0 $dgreen;
+
+  }
+}

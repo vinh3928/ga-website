@@ -246,6 +246,18 @@ form {
 .container a {
   color: green; }
 
+.chromosome {
+  background: url(/images/chromosome.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+  .chromosome h2, .chromosome h4 {
+    background-color: rgba(76, 102, 99, 0.5);
+    margin: 0;
+    color: white;
+    text-shadow: 1px 1px 0 #4C6663, -1px 1px 0 #4C6663, 1px -1px 0 #4C6663, -1px -1px 0 #4C6663; }
+
 /***************************
  * OTHER ARTICLE
 ***************************/
