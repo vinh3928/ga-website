@@ -1,6 +1,6 @@
 var express = require('express');
-var router = express.Router();
 var unirest = require('unirest');
+var router = express.Router();
 var db = require('monk')(process.env.MONGOLAB_URI);
 var users = db.get('users');
 
@@ -27,11 +27,11 @@ router.get('/home', function(req, res, next) {
   if (req.session.id) {
     users.findOne({_id: req.session.id}, function (err, doc) {
       if (err) throw new Error('cannot find session id');
-      //if (doc.visited === true) {
-        //res.redirect('/second-attempt');
-      //} else {
+      if (doc.visited === true) {
+        res.redirect('/second-attempt');
+      } else {
         res.render('home', {});
-      //}
+      }
     });
   } else {
     res.redirect('/');
