@@ -68,7 +68,7 @@ Population.prototype.generation = function () {
     }
   }
 
-  var newPopulation = new Population(11, 12, newPool);
+  var newPopulation = new Population(11, 10, newPool);
   return newPopulation;
 
 };
@@ -228,7 +228,7 @@ function advertBox (population) {
 orbit.get("/data/population.json", function () {
   specimen = JSON.parse(this.response);
   if (specimen === false) {
-    var population = new Population(11, 12);
+    var population = new Population(11, 10);
     orbit.post("/data/newpopulation", population, function () {
       window.location = "/home";
     });
@@ -241,7 +241,7 @@ orbit.get("/data/population.json", function () {
         var gene = new Gene(data[i].population.code, data[i].population.fitness);
         array.push(gene);
       }
-      var population = new Population(11, 12, array);
+      var population = new Population(11, 10, array);
       var newPopulation = population.generation();
       orbit.post("/data/newpopulation", newPopulation, function () {
         window.location = "/home";
